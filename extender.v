@@ -15,9 +15,9 @@ input [1:0] ext_ops;
 always@(ext_ops or data16)
 begin
     case(ext_ops)
-    2'b01: data32 = {{16{data16[15]}},data16};
-    2'b10: data32 = {data16,{16{1'b0}}};
-    default: data32 = {{16{1'b0}},data16};
+    2'b01: data32 = {{16{data16[15]}},data16}; // SSSSSSxxxxxx
+    2'b10: data32 = {data16,{16{1'b0}}};       // xxxxxx000000
+    default: data32 = {{16{1'b0}},data16};     // 000000xxxxxx
     endcase
 end
 endmodule

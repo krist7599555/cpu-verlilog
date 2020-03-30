@@ -6,7 +6,7 @@
 // Purpose      : Computer Architecture
 // Developers   : Krerk Piromsopa, Ph. D.
 //              : Chulalongkorn University.
-module memory(data,address,wr,clock);
+module memory(data, address, wr, clock);
 parameter DATA_WIDTH=32;
 parameter ADDR_WIDTH=27;
 
@@ -24,20 +24,23 @@ assign data=(wr==0) ? data_out:32'bz;
 integer i;
 initial
 begin
-	$readmemb("data.list",mem);
+	$readmemb("memory.list",mem);
 end
 
-always @(address)
-begin
-	$display("%10d - mem[%h] -  %h\n",$time, address,data_out);	
-	data_out = mem[address];
-end
+// always @(address)
+// begin
+// 	$display("%10d - mem[%h] -  %h\n",$time, address,data_out);	
+// 	data_out = mem[address];
+// end
 
 always @(posedge clock)
 begin : MEM_WRITE
 	if (wr) begin
 		mem[address]=data;
 		$display("%10d - MEM[%h] <- %h",$time, address, data);
+	end
+	else begin
+		data_out = mem[address];
 	end
 end
 

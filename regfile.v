@@ -6,13 +6,13 @@
 // Purpose      : Computer Architecture, Design and Verfication
 // Developers   : Krerk Piromsopa, Ph. D.
 //              : Chulalongkorn University.
-module regfile(A, B, data, ra, rb, rw, nwr, clock);
+module regfile(A, B, data, ra, rb, rw, is_not_write, clock);
 output	[31:0]	A;
 output	[31:0]	B;
 input 	[31:0]	data;
 input 	[4:0]	ra, rb, rw;
-input			nwr;
-input			clock;
+input		is_not_write;
+input		clock;
 
 reg		[31:0] regs[31:0];
 
@@ -25,14 +25,14 @@ initial
 begin
 	for(i=0;i<32;i++)
 	begin
-		regs[i]=0;
+		regs[i] = 0;
 	end
 end
 
 always @(posedge clock)
 begin
-	$display("%10d - A(REG[%d]) -  %h, B(REG[%d]) -  %h\n",$time, ra,A,rb,B);
-	if (nwr==0) 
+	$display("%10d - A(REG[%d] %h), B(REG[%d] %h)",$time, ra, regs[ra], rb, regs[rb]);
+	if (is_not_write==0) 
 	begin
 		regs[rw] = data;
 		$display("%10d - REG[%d] <- %h",$time, rw, data);
